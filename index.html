@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chart JS</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="inp-group">
+		<input id="inpC" type="search" name="" placeholder="city">
+		<input id="inpY" type="search" name="" placeholder="year">
+		<input id="inpA" type="search" name="" placeholder="age">
+		<button onclick="onclickFunc()" >check</button>
+	</div>
+
+
+	<div class="main-div">
+		<canvas id="myChart" width="400" height="400"></canvas>
+	</div>
+	<script>
+
+		function onclickFunc() {
+
+			let country = document.querySelector("#inpC").value;
+			let year = document.querySelector("#inpY").value;
+			let age = document.querySelector("#inpA").value;
+
+			$.ajax({	
+				url : `http://api.population.io:80/1.0/population/${year}/${country}/${age}/`,
+				success: function(data){
+					console.log(data)
+
+
+					let female = data[0].females;
+					let male = data[0].males;
+					let total = data[0].total;
+					// let options;
+					var ctx = document.getElementById("myChart").getContext('2d');
+					var myChart = new Chart(ctx, {
+						type: 'bar',
+						data: {
+							labels: ["Male", "Femail", "Total"],
+							datasets: [{
+								label: `${country} of Votes`,
+								data: [female, male, total],
+								backgroundColor: [
+								'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)'
+
+								],
+								borderColor: [
+								'rgba(255,99,132,1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)'
+
+								],
+								borderWidth: 1
+							}]
+						},
+						options: {
+							scales: {
+								yAxes: [{
+									ticks: {
+										beginAtZero:true
+									}
+								}]
+							}
+						}
+					});
+					
+					var myBarChart = new Chart(ctx, {
+						type: 'bar',
+						data: data,
+						options: options,
+					});
+				}
+			});
+		}
+
+
+
+	</script>
+</body>
+</html>
