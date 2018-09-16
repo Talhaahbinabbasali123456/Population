@@ -5,7 +5,7 @@ function onclickFunc() {
 			let age = document.querySelector("#inpA").value;
 
 			$.ajax({	
-				url : `http://api.population.io:80/1.0/population/${year}/${country}/${age}/`,
+				url : `https://api.population.io:80/1.0/population/${year}/${country}/${age}/`,
 				success: function(data){
 					console.log(data)
 
